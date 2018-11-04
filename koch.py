@@ -1,18 +1,19 @@
 #! /usr/bin/env python
-# AXIOM = 'F' -> Koch Curve
-# AXIOM = 'F--F--F' -> Koch Snowflake
+# AXIOM = 'F',  START_RULE = 'F',       RULE = 'F+F--F+F' -> Koch Curve
+# AXIOM = 'F',  START_RULE = 'F--F--F', RULE = 'F+F--F+F' -> Koch Snowflake
 
 import pygame
 import math 
 import os
 
-WIDTH=1024
-HEIGHT=768
+WIDTH=640
+HEIGHT=480
 GEN = 5 
 ANGLE = 60
-LENGTH_LINE = WIDTH//1.2
+LENGTH_LINE = WIDTH//0.6
 FACTOR = 3
 AXIOM = 'F'
+START_RULE = 'F--F--F'
 RULE = 'F+F--F+F'
 
 white = (255, 255, 255, 255)
@@ -21,8 +22,11 @@ green = (0, 255, 0, 255)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 
-cursor = {'x': WIDTH//2 - LENGTH_LINE//6, 
-          'y': HEIGHT//2 - LENGTH_LINE//10, 
+offset_x = LENGTH_LINE/6
+offset_y = LENGTH_LINE/10
+
+cursor = {'x': WIDTH/2 - offset_x, 
+          'y': HEIGHT/2 - offset_y, 
           'angle': 0}
 
 def generator(rule, gen=1):
@@ -64,7 +68,7 @@ def main_loop():
             #pygame.draw.line(screen, red, (0, HEIGHT/2), (WIDTH, HEIGHT/2)) # half screen line over X axis
             #pygame.draw.line(screen, green, (WIDTH/2, 0), (WIDTH/2, HEIGHT)) # half screen line over Y axis
             pygame.time.delay(500) #Delay to be able to see differences between generations 
-            rule = generator(AXIOM, gen)
+            rule = generator(START_RULE, gen)
             l /= FACTOR 
             update_cursor(screen, white, cursor, rule, l)
             pygame.display.update()    
